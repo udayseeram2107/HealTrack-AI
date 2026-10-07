@@ -1,1 +1,2 @@
-export * from './schemas/wound.schema';
+export * from './schemas/wound.schema.js';
+
