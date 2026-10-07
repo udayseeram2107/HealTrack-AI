@@ -12,14 +12,11 @@
     "resolveJsonModule": true
   },
   "include": [
-    "shared/**/*",
-    "server/src/**/*",
-    "client/src/**/*"
+    "shared/**/*"
   ],
   "exclude": [
     "node_modules",
-    "**/node_modules/*",
-    "client/dist",
-    "server/dist"
+    "client",
+    "server"
   ]
 }
