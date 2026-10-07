@@ -7,15 +7,15 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://inkhc-2401-4900-cbed-4d50-d8ba-6e87-9031-7c6.run.pinggy-free.link/api/$1"
+      "destination": "https://jmwek-2409-40f0-443a-8b0-2975-b7ad-ae27-5a40.run.pinggy-free.link/api/$1"
     },
     {
       "source": "/uploads/(.*)",
-      "destination": "https://inkhc-2401-4900-cbed-4d50-d8ba-6e87-9031-7c6.run.pinggy-free.link/uploads/$1"
+      "destination": "https://jmwek-2409-40f0-443a-8b0-2975-b7ad-ae27-5a40.run.pinggy-free.link/uploads/$1"
     },
     {
       "source": "/samples/(.*)",
-      "destination": "https://inkhc-2401-4900-cbed-4d50-d8ba-6e87-9031-7c6.run.pinggy-free.link/samples/$1"
+      "destination": "https://jmwek-2409-40f0-443a-8b0-2975-b7ad-ae27-5a40.run.pinggy-free.link/samples/$1"
     },
     {
       "source": "/((?!api|uploads|samples).*)",

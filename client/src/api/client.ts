@@ -32,7 +32,7 @@ export function getApiBaseUrl(): string {
     window.location.hostname !== 'localhost' &&
     window.location.hostname !== '127.0.0.1'
   ) {
-    return 'https://inkhc-2401-4900-cbed-4d50-d8ba-6e87-9031-7c6.run.pinggy-free.link/api/v1';
+    return 'https://jmwek-2409-40f0-443a-8b0-2975-b7ad-ae27-5a40.run.pinggy-free.link/api/v1';
   }
 
   // 4. Default to local proxy /api/v1 for local Vite dev server
