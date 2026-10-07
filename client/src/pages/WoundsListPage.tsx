@@ -1,72 +1,27 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import {
   FolderHeart,
   PlusCircle,
   MapPin,
-  Calendar,
-  Layers,
-  ChevronRight,
-  X,
-  Sparkles,
-  Activity
+  ChevronRight
 } from 'lucide-react';
 import { api } from '../api/client';
 import { RiskBadge } from '../components/common/RiskBadge';
-import { CreateWoundInput, WoundType } from '@/shared/index.js';
 import { useAppStore } from '../store/useAppStore';
-
-const WOUND_TYPES: WoundType[] = [
-  'Post-Surgical Incision',
-  'Diabetic Foot Ulcer (DFU)',
-  'Venous Leg Ulcer (VLU)',
-  'Arterial Insufficiency Ulcer',
-  'Pressure Injury (Stage 1-4)',
-  'Traumatic Laceration / Abrasion',
-  'Burn (1st/2nd Degree Superficial)',
-  'Other Cutaneous Wound'
-];
+import { RegisterWoundModal } from '../components/entry/RegisterWoundModal';
 
 export const WoundsListPage: React.FC = () => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const { user } = useAppStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formData, setFormData] = useState<CreateWoundInput>({
-    wound_name: '',
-    anatomical_location: '',
-    wound_type: 'Post-Surgical Incision',
-    initial_onset_date: new Date().toISOString().split('T')[0],
-    baseline_notes: ''
-  });
 
   const { data: wounds = [], isLoading } = useQuery({
     queryKey: ['wounds'],
     queryFn: () => api.listWounds()
   });
-
-  const createMutation = useMutation({
-    mutationFn: (newWound: CreateWoundInput) => api.createWound(newWound),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['wounds'] });
-      setIsModalOpen(false);
-      setFormData({
-        wound_name: '',
-        anatomical_location: '',
-        wound_type: 'Post-Surgical Incision',
-        initial_onset_date: new Date().toISOString().split('T')[0],
-        baseline_notes: ''
-      });
-    }
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.wound_name || !formData.anatomical_location) return;
-    createMutation.mutate(formData);
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 animate-in fade-in duration-300">
@@ -188,118 +143,11 @@ export const WoundsListPage: React.FC = () => {
         </div>
       )}
 
-      {/* Register New Wound Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-slate-900 border border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl relative">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <div className="flex items-center gap-2">
-                <FolderHeart className="w-5 h-5 text-teal-400" />
-                <h3 className="text-base font-bold text-white">Register New Wound Condition</h3>
-              </div>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-xs">
-              <div>
-                <label className="block font-semibold text-slate-300 mb-1">
-                  Wound Name / Label *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Left Lateral Malleolus Incision"
-                  value={formData.wound_name}
-                  onChange={(e) => setFormData({ ...formData, wound_name: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-300 mb-1">
-                  Anatomical Location *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Left Ankle (Lateral Aspect)"
-                  value={formData.anatomical_location}
-                  onChange={(e) =>
-                    setFormData({ ...formData, anatomical_location: e.target.value })
-                  }
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-300 mb-1">
-                  Clinical Wound Classification *
-                </label>
-                <select
-                  value={formData.wound_type}
-                  onChange={(e) => setFormData({ ...formData, wound_type: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-200 focus:outline-none focus:border-teal-500"
-                >
-                  {WOUND_TYPES.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-300 mb-1">
-                  Initial Onset / Surgery Date
-                </label>
-                <input
-                  type="date"
-                  value={formData.initial_onset_date}
-                  onChange={(e) =>
-                    setFormData({ ...formData, initial_onset_date: e.target.value })
-                  }
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-200 focus:outline-none focus:border-teal-500"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold text-slate-300 mb-1">
-                  Baseline Clinical Notes / Surgical Procedure
-                </label>
-                <textarea
-                  rows={2}
-                  placeholder="e.g. ORIF procedure for ankle fracture. Staples removed on postoperative Day 10."
-                  value={formData.baseline_notes}
-                  onChange={(e) => setFormData({ ...formData, baseline_notes: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500 resize-none"
-                />
-              </div>
-
-              <div className="pt-2 flex justify-end gap-2.5">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 text-slate-400 hover:text-white"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={createMutation.isPending}
-                  className="px-5 py-2 bg-gradient-to-r from-teal-500 to-emerald-400 text-slate-950 font-bold rounded-xl shadow transition-transform active:scale-95 disabled:opacity-50"
-                >
-                  {createMutation.isPending ? 'Registering...' : 'Create Wound Record'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Register New Wound Modal with Image Upload & Voice Status */}
+      <RegisterWoundModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { api } from '../api/client';
 import { RiskBadge } from '../components/common/RiskBadge';
+import { RegisterWoundModal } from '../components/entry/RegisterWoundModal';
 import { useAppStore } from '../store/useAppStore';
 import { translations } from '../i18n/translations';
 
@@ -25,6 +26,8 @@ export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, language } = useAppStore();
   const t = translations[language] || translations.en;
+
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
   const { data: wounds = [], isLoading } = useQuery({
     queryKey: ['wounds'],
@@ -59,15 +62,13 @@ export const DashboardPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
-            {wounds.length > 0 && (
-              <button
-                onClick={() => navigate(`/wounds/${wounds[0].id}/new-entry`)}
-                className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-xl shadow-teal-500/25 hover:scale-105 active:scale-95 transition-all"
-              >
-                <PlusCircle className="w-4 h-4" />
-                <span>{t.navNewEntry}</span>
-              </button>
-            )}
+            <button
+              onClick={() => setIsRegisterModalOpen(true)}
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-xl shadow-teal-500/25 hover:scale-105 active:scale-95 transition-all"
+            >
+              <PlusCircle className="w-4 h-4" />
+              <span>+ Register Wound (Photo &amp; Voice)</span>
+            </button>
 
             <button
               onClick={() => navigate('/hospitals')}
@@ -167,10 +168,10 @@ export const DashboardPage: React.FC = () => {
           <div className="p-8 text-center glass-card rounded-3xl border border-slate-800 space-y-3">
             <p className="text-sm text-slate-300">No active wounds registered for this patient profile.</p>
             <button
-              onClick={() => navigate('/wounds')}
-              className="px-4 py-2 bg-teal-500 text-slate-950 rounded-xl font-bold text-xs"
+              onClick={() => setIsRegisterModalOpen(true)}
+              className="px-5 py-2.5 bg-gradient-to-r from-teal-500 to-emerald-400 text-slate-950 rounded-xl font-bold text-xs shadow-lg shadow-teal-500/20 hover:scale-105 active:scale-95 transition-all"
             >
-              Register New Wound
+              + Register Wound (Photo &amp; Voice)
             </button>
           </div>
         ) : (
@@ -284,6 +285,12 @@ export const DashboardPage: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {/* Register Wound Modal with Photo Upload & Voice Input */}
+      <RegisterWoundModal
+        isOpen={isRegisterModalOpen}
+        onClose={() => setIsRegisterModalOpen(false)}
+      />
     </div>
   );
 };
