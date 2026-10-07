@@ -8,6 +8,9 @@
     "start": "node dist/index.js",
     "db:migrate": "tsx scripts/migrate.ts"
   },
+  "allowScripts": {
+    "esbuild": true
+  },
   "dependencies": {
     "@google/genai": "^0.2.0",
     "@supabase/supabase-js": "^2.49.1",
