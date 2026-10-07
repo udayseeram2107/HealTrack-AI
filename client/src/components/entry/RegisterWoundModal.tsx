@@ -20,7 +20,7 @@ import {
   RefreshCw,
   Image as ImageIcon
 } from 'lucide-react';
-import { api } from '../../api/client';
+import { api, getApiBaseUrl, setApiBaseUrl } from '../../api/client';
 import { useAppStore } from '../../store/useAppStore';
 import { translations } from '../../i18n/translations';
 import {
@@ -527,9 +527,28 @@ export const RegisterWoundModal: React.FC<RegisterWoundModalProps> = ({ isOpen, 
 
         {/* Error Notification */}
         {errorMessage && (
-          <div className="mt-3 p-3 rounded-xl bg-rose-950/60 border border-rose-800/80 text-rose-200 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
-            <span>{errorMessage}</span>
+          <div className="mt-3 p-3 rounded-xl bg-rose-950/70 border border-rose-800/80 text-rose-200 text-xs flex flex-wrap items-center justify-between gap-2 shadow-lg">
+            <div className="flex items-center gap-2 flex-1 min-w-[200px]">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+              <span className="leading-relaxed">{errorMessage}</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                const current = getApiBaseUrl();
+                const url = prompt(
+                  'Enter your live Backend API Server URL (e.g. Render URL or Tunnel URL):',
+                  current
+                );
+                if (url !== null && url.trim()) {
+                  setApiBaseUrl(url.trim());
+                  setErrorMessage('API URL updated to: ' + url.trim() + '. Please click Create Wound Record again.');
+                }
+              }}
+              className="px-2.5 py-1 bg-rose-900/90 hover:bg-rose-800 text-rose-200 hover:text-white text-[11px] font-semibold rounded-lg shrink-0 border border-rose-700/80 transition-colors"
+            >
+              Configure API URL
+            </button>
           </div>
         )}
 

@@ -7,13 +7,49 @@ import {
   SBARSummary
 } from '@/shared/index.js';
 
-// Support customizable API Base URL from environment variables, defaulting to local proxy /api/v1
-const rawBase = (((import.meta as any).env?.VITE_API_BASE_URL as string) || '').trim().replace(/\/+$/, '');
-export const API_BASE = rawBase
-  ? rawBase.endsWith('/api/v1')
-    ? rawBase
-    : `${rawBase}/api/v1`
-  : '/api/v1';
+// Dynamic API Base URL resolver supporting environment variables, localStorage override, and remote fallback
+export function getApiBaseUrl(): string {
+  // 1. Runtime override saved by user in browser
+  if (typeof window !== 'undefined') {
+    try {
+      const custom = localStorage.getItem('healtrack_custom_api_url');
+      if (custom && custom.trim()) {
+        const c = custom.trim().replace(/\/+$/, '');
+        return c.endsWith('/api/v1') ? c : `${c}/api/v1`;
+      }
+    } catch (_) {}
+  }
+
+  // 2. Build-time Vite environment variable
+  const rawBase = (((import.meta as any).env?.VITE_API_BASE_URL as string) || '').trim().replace(/\/+$/, '');
+  if (rawBase) {
+    return rawBase.endsWith('/api/v1') ? rawBase : `${rawBase}/api/v1`;
+  }
+
+  // 3. Fallback for remote static hosting (like Vercel) where /api/v1 is not locally proxied
+  if (
+    typeof window !== 'undefined' &&
+    window.location.hostname !== 'localhost' &&
+    window.location.hostname !== '127.0.0.1'
+  ) {
+    return 'https://inkhc-2401-4900-cbed-4d50-d8ba-6e87-9031-7c6.run.pinggy-free.link/api/v1';
+  }
+
+  // 4. Default to local proxy /api/v1 for local Vite dev server
+  return '/api/v1';
+}
+
+export function setApiBaseUrl(url: string) {
+  try {
+    if (url && url.trim()) {
+      localStorage.setItem('healtrack_custom_api_url', url.trim());
+    } else {
+      localStorage.removeItem('healtrack_custom_api_url');
+    }
+  } catch (_) {}
+}
+
+export const API_BASE = getApiBaseUrl();
 
 export function getFullImageUrl(url?: string): string {
   if (!url) return '';
@@ -25,9 +61,10 @@ export function getFullImageUrl(url?: string): string {
   ) {
     return url;
   }
-  if (API_BASE.startsWith('http://') || API_BASE.startsWith('https://')) {
+  const base = getApiBaseUrl();
+  if (base.startsWith('http://') || base.startsWith('https://')) {
     try {
-      const origin = new URL(API_BASE).origin;
+      const origin = new URL(base).origin;
       return `${origin}${url.startsWith('/') ? '' : '/'}${url}`;
     } catch (_) {}
   }
@@ -41,6 +78,12 @@ async function handleResponse<T>(res: Response): Promise<T> {
   if (!contentType.includes('application/json')) {
     const text = await res.text();
     const cleanSnippet = text.replace(/<[^>]*>?/gm, '').trim().substring(0, 120);
+
+    if (res.status === 405) {
+      throw new Error(
+        `Backend service unavailable (405): The request was sent to a static frontend path instead of the API server. Please configure your API URL or check Vercel environment variables.`
+      );
+    }
 
     if (!res.ok) {
       throw new Error(
@@ -71,14 +114,14 @@ async function handleResponse<T>(res: Response): Promise<T> {
 export const api = {
   // Profiles & System
   async getProfile() {
-    const res = await fetch(`${API_BASE}/profile`, {
+    const res = await fetch(`${getApiBaseUrl()}/profile`, {
       headers: { Authorization: `Bearer demo-token` }
     });
     return handleResponse(res);
   },
 
   async updateProfile(data: { full_name?: string; phone_number?: string; preferred_language?: string }) {
-    const res = await fetch(`${API_BASE}/profile`, {
+    const res = await fetch(`${getApiBaseUrl()}/profile`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -94,12 +137,12 @@ export const api = {
     googleMaps: { isConfigured: boolean };
     database: { type: string; status: string };
   }> {
-    const res = await fetch(`${API_BASE}/profile/status`);
+    const res = await fetch(`${getApiBaseUrl()}/profile/status`);
     return handleResponse(res);
   },
 
   async updateApiKeys(keys: { geminiApiKey?: string; googleMapsApiKey?: string }) {
-    const res = await fetch(`${API_BASE}/profile/keys`, {
+    const res = await fetch(`${getApiBaseUrl()}/profile/keys`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -112,21 +155,21 @@ export const api = {
 
   // Wounds
   async listWounds(): Promise<WoundRecord[]> {
-    const res = await fetch(`${API_BASE}/wounds`, {
+    const res = await fetch(`${getApiBaseUrl()}/wounds`, {
       headers: { Authorization: `Bearer demo-token` }
     });
     return handleResponse<WoundRecord[]>(res);
   },
 
   async getWound(woundId: string): Promise<WoundRecord & { entries: WoundEntryRecord[] }> {
-    const res = await fetch(`${API_BASE}/wounds/${woundId}`, {
+    const res = await fetch(`${getApiBaseUrl()}/wounds/${woundId}`, {
       headers: { Authorization: `Bearer demo-token` }
     });
     return handleResponse<WoundRecord & { entries: WoundEntryRecord[] }>(res);
   },
 
   async createWound(input: CreateWoundInput): Promise<WoundRecord> {
-    const res = await fetch(`${API_BASE}/wounds`, {
+    const res = await fetch(`${getApiBaseUrl()}/wounds`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -139,7 +182,7 @@ export const api = {
 
   // Entries
   async createWoundEntry(woundId: string, formData: FormData): Promise<WoundEntryRecord> {
-    const res = await fetch(`${API_BASE}/wounds/${woundId}/entries`, {
+    const res = await fetch(`${getApiBaseUrl()}/wounds/${woundId}/entries`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer demo-token`
@@ -165,7 +208,7 @@ export const api = {
       necrosis: number;
     };
   }> {
-    const res = await fetch(`${API_BASE}/wounds/${woundId}/compare`, {
+    const res = await fetch(`${getApiBaseUrl()}/wounds/${woundId}/compare`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -182,7 +225,7 @@ export const api = {
     entryCount: number;
     latestRisk: string;
   }> {
-    const res = await fetch(`${API_BASE}/wounds/${woundId}/summary`, {
+    const res = await fetch(`${getApiBaseUrl()}/wounds/${woundId}/summary`, {
       headers: { Authorization: `Bearer demo-token` }
     });
     return handleResponse(res);
@@ -194,7 +237,7 @@ export const api = {
     durationHours: number = 48,
     passcode?: string
   ): Promise<{ token: string; expires_at: string; share_url: string }> {
-    const res = await fetch(`${API_BASE}/wounds/${woundId}/shares`, {
+    const res = await fetch(`${getApiBaseUrl()}/wounds/${woundId}/shares`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -211,7 +254,7 @@ export const api = {
     sbarSummary: SBARSummary | null;
     shareInfo: { expires_at: string; view_count: number };
   }> {
-    const res = await fetch(`${API_BASE}/public/shares/${token}`);
+    const res = await fetch(`${getApiBaseUrl()}/public/shares/${token}`);
     return handleResponse(res);
   },
 
@@ -240,12 +283,12 @@ export const api = {
       ...(params.specialty ? { specialty: params.specialty } : {})
     });
 
-    const res = await fetch(`${API_BASE}/maps/nearby-facilities?${query.toString()}`);
+    const res = await fetch(`${getApiBaseUrl()}/maps/nearby-facilities?${query.toString()}`);
     return handleResponse(res);
   },
 
   async geocode(query: string): Promise<{ lat: number; lng: number; formattedAddress: string } | null> {
-    const res = await fetch(`${API_BASE}/maps/geocode?q=${encodeURIComponent(query)}`);
+    const res = await fetch(`${getApiBaseUrl()}/maps/geocode?q=${encodeURIComponent(query)}`);
     const data = await handleResponse<{ lat: number; lng: number; formattedAddress: string } | null>(res);
     return data;
   }

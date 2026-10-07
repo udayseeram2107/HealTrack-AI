@@ -15,7 +15,7 @@ import {
 import { useAppStore } from '../../store/useAppStore';
 import { translations } from '../../i18n/translations';
 import { SupportedLanguage } from '@/shared/index.js';
-import { api } from '../../api/client';
+import { api, getApiBaseUrl, setApiBaseUrl } from '../../api/client';
 
 export const Navbar: React.FC = () => {
   const location = useLocation();
@@ -28,6 +28,7 @@ export const Navbar: React.FC = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [geminiKeyInput, setGeminiKeyInput] = useState('');
   const [mapsKeyInput, setMapsKeyInput] = useState('');
+  const [apiUrlInput, setApiUrlInput] = useState(getApiBaseUrl());
   const [keyUpdateMsg, setKeyUpdateMsg] = useState('');
 
   useEffect(() => {
@@ -55,11 +56,14 @@ export const Navbar: React.FC = () => {
   const handleSaveApiKeys = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      if (apiUrlInput.trim()) {
+        setApiBaseUrl(apiUrlInput.trim());
+      }
       const res: any = await api.updateApiKeys({
         geminiApiKey: geminiKeyInput.trim() || undefined,
         googleMapsApiKey: mapsKeyInput.trim() || undefined
       });
-      setKeyUpdateMsg('Keys updated successfully!');
+      setKeyUpdateMsg('Credentials & API settings saved successfully!');
       setSystemStatus({
         geminiConfigured: res.status?.geminiConfigured,
         mapsConfigured: res.status?.mapsConfigured
@@ -326,6 +330,22 @@ export const Navbar: React.FC = () => {
               </div>
 
               <form onSubmit={handleSaveApiKeys} className="space-y-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Backend API Server URL
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="https://your-backend.onrender.com/api/v1"
+                    value={apiUrlInput}
+                    onChange={(e) => setApiUrlInput(e.target.value)}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-teal-500 font-mono"
+                  />
+                  <p className="text-[10px] text-slate-400 mt-1">
+                    Active endpoint: <span className="text-teal-400 font-mono break-all">{getApiBaseUrl()}</span>
+                  </p>
+                </div>
+
                 <div>
                   <label className="block text-xs font-semibold text-slate-300 mb-1">
                     Google Gemini API Key
