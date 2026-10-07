@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
 import { translations } from '../../i18n/translations';
-import { SupportedLanguage } from '../../../../shared/index.js';
+import { SupportedLanguage } from '@/shared/index.js';
 import { api } from '../../api/client';
 
 export const Navbar: React.FC = () => {

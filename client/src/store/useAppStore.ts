@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { SupportedLanguage } from '../../../shared/index.js';
+import { SupportedLanguage } from '@/shared/index.js';
 
 export interface UserState {
   id: string;

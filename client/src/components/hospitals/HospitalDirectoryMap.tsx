@@ -11,7 +11,7 @@ import {
   Crosshair,
   Maximize2
 } from 'lucide-react';
-import { VerifiedFacility } from '../../../../shared/index.js';
+import { VerifiedFacility } from '@/shared/index.js';
 
 interface HospitalDirectoryMapProps {
   facilities: (VerifiedFacility & { distance_km: number })[];

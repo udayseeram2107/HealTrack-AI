@@ -13,7 +13,7 @@ import {
   CreateWoundEntryInput,
   DoctorShareCreateInput,
   ProfileUpdateInput
-} from '../../../shared/index.js';
+} from '../shared/index.js';
 
 interface UserProfile {
   id: string;

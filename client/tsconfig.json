@@ -17,8 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@shared/*": ["../shared/*"]
+      "@shared/*": ["./src/shared/*"]
     }
   },
-  "include": ["src", "../shared"]
+  "include": ["src"]
 }

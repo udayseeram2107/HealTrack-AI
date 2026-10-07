@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import { api } from '../api/client';
 import { RiskBadge } from '../components/common/RiskBadge';
-import { CreateWoundInput, WoundType } from '../../../shared/index.js';
+import { CreateWoundInput, WoundType } from '@/shared/index.js';
 import { useAppStore } from '../store/useAppStore';
 
 const WOUND_TYPES: WoundType[] = [

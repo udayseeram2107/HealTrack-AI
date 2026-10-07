@@ -8,7 +8,7 @@ import {
   Building2,
   ExternalLink
 } from 'lucide-react';
-import { VerifiedFacility } from '../../../../shared/index.js';
+import { VerifiedFacility } from '@/shared/index.js';
 
 interface DoctorCardProps {
   facility: VerifiedFacility & { distance_km: number };

@@ -23,7 +23,7 @@ import {
 } from 'lucide-react';
 import { HospitalDirectoryMap } from '../components/hospitals/HospitalDirectoryMap';
 import { DoctorCard } from '../components/hospitals/DoctorCard';
-import { VerifiedFacility } from '../../../shared/index.js';
+import { VerifiedFacility } from '@/shared/index.js';
 import { api } from '../api/client';
 import { useAppStore } from '../store/useAppStore';
 import { translations } from '../i18n/translations';

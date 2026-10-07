@@ -31,7 +31,7 @@ import {
   ExudateType,
   OdorLevel,
   WoundEntryRecord
-} from '../../../shared/index.js';
+} from '@/shared/index.js';
 
 export const NewEntryWizardPage: React.FC = () => {
   const { woundId } = useParams<{ woundId: string }>();

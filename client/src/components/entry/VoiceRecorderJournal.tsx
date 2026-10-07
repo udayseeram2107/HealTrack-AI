@@ -9,7 +9,7 @@ import {
   AlertCircle,
   FileText
 } from 'lucide-react';
-import { SupportedLanguage } from '../../../../shared/index.js';
+import { SupportedLanguage } from '@/shared/index.js';
 import { useAppStore } from '../../store/useAppStore';
 import { translations } from '../../i18n/translations';
 

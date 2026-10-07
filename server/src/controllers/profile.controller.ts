@@ -3,7 +3,7 @@ import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 import { db } from '../services/supabase.service.js';
 import { geminiService } from '../services/gemini.service.js';
 import { mapsService } from '../services/maps.service.js';
-import { ProfileUpdateSchema } from '../../../shared/index.js';
+import { ProfileUpdateSchema } from '../shared/index.js';
 
 export class ProfileController {
   async getProfile(req: AuthenticatedRequest, res: Response): Promise<void> {

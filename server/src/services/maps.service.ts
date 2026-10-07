@@ -1,6 +1,6 @@
 import { config } from '../config/index.js';
 import { db } from './supabase.service.js';
-import { VerifiedFacility } from '../../../shared/index.js';
+import { VerifiedFacility } from '../shared/index.js';
 
 export interface NearbyFacilitiesResult {
   isConfigured: boolean;

@@ -2,6 +2,10 @@
   "name": "healtrack-ai-monorepo",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "server",
+    "client"
+  ],
   "scripts": {
     "dev:server": "npm --prefix server run dev",
     "dev:client": "npm --prefix client run dev",
@@ -9,6 +13,8 @@
     "build:server": "npm --prefix server run build",
     "build:client": "npm --prefix client run build",
     "build": "npm run build:server && npm run build:client",
+    "start": "node server/dist/index.js",
+    "start:server": "node server/dist/index.js",
     "db:migrate": "npm --prefix server run db:migrate"
   },
   "devDependencies": {

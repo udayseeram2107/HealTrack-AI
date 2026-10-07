@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth.middleware.js';
 import { db } from '../services/supabase.service.js';
 import { geminiService } from '../services/gemini.service.js';
-import { DoctorShareCreateSchema } from '../../../shared/index.js';
+import { DoctorShareCreateSchema } from '../shared/index.js';
 
 export class ShareController {
   async createShare(req: AuthenticatedRequest, res: Response): Promise<void> {

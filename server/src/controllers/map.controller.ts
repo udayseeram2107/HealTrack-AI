@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { mapsService } from '../services/maps.service.js';
-import { NearbyFacilitiesQuerySchema } from '../../../shared/index.js';
+import { NearbyFacilitiesQuerySchema } from '../shared/index.js';
 
 export class MapController {
   async getNearbyFacilities(req: Request, res: Response): Promise<void> {

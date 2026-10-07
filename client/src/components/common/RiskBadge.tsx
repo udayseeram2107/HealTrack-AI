@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ShieldCheck, AlertTriangle, AlertOctagon, Info } from 'lucide-react';
-import { RiskLevel } from '../../../../shared/index.js';
+import { RiskLevel } from '@/shared/index.js';
 import { useAppStore } from '../../store/useAppStore';
 import { translations } from '../../i18n/translations';
 

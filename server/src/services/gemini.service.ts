@@ -6,7 +6,7 @@ import {
   SBARSummary,
   WoundEntryRecord,
   SupportedLanguage
-} from '../../../shared/index.js';
+} from '../shared/index.js';
 
 export const GEMINI_MODEL = config.gemini.model;
 

@@ -5,7 +5,7 @@ import {
   DoctorShareCreateInput,
   VerifiedFacility,
   SBARSummary
-} from '../../../shared/index.js';
+} from '@/shared/index.js';
 
 const API_BASE = '/api/v1';
 

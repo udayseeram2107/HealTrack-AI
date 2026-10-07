@@ -23,7 +23,7 @@ import { api } from '../api/client';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { DoctorShareModal } from '../components/sharing/DoctorShareModal';
 import { CareGuidanceAccordion } from '../components/entry/CareGuidanceAccordion';
-import { SBARSummary } from '../../../shared/index.js';
+import { SBARSummary } from '@/shared/index.js';
 import { useAppStore } from '../store/useAppStore';
 import { translations } from '../i18n/translations';
 

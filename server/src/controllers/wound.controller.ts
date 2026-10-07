@@ -7,7 +7,7 @@ import {
   CreateWoundSchema,
   CreateWoundEntryInputSchema,
   SupportedLanguage
-} from '../../../shared/index.js';
+} from '../shared/index.js';
 import fs from 'fs';
 import path from 'path';
 
