@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "allowScripts": {
-    "esbuild": true
+    "esbuild": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.2": true
   },
   "dependencies": {
     "@tanstack/react-query": "^5.66.0",

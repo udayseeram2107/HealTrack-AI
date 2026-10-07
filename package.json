@@ -19,7 +19,9 @@
     "db:migrate": "npm --prefix server run db:migrate"
   },
   "allowScripts": {
-    "esbuild": true
+    "esbuild": true,
+    "esbuild@0.28.2": true,
+    "esbuild@0.25.12": true
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
