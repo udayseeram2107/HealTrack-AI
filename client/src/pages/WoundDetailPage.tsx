@@ -19,13 +19,14 @@ import {
   TrendingUp,
   Volume2
 } from 'lucide-react';
-import { api } from '../api/client';
+import { api, getFullImageUrl } from '../api/client';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { DoctorShareModal } from '../components/sharing/DoctorShareModal';
 import { CareGuidanceAccordion } from '../components/entry/CareGuidanceAccordion';
 import { SBARSummary } from '@/shared/index.js';
 import { useAppStore } from '../store/useAppStore';
 import { translations } from '../i18n/translations';
+import { getTranslatedWoundType } from '../i18n/woundTranslations';
 
 export const WoundDetailPage: React.FC = () => {
   const { woundId } = useParams<{ woundId: string }>();
@@ -100,7 +101,7 @@ export const WoundDetailPage: React.FC = () => {
 
           <div className="flex items-center gap-2 flex-wrap">
             <span className="px-2.5 py-0.5 rounded-md bg-teal-950/80 text-teal-400 border border-teal-800/60 text-xs font-bold">
-              {woundData.wound_type}
+              {getTranslatedWoundType(woundData.wound_type, language)}
             </span>
             <span className="text-xs text-slate-400 flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5 text-slate-500" />
@@ -196,7 +197,7 @@ export const WoundDetailPage: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="h-64 sm:h-72 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center relative group">
                   <img
-                    src={activeEntry.image_url}
+                    src={getFullImageUrl(activeEntry.image_url)}
                     alt="Wound Capture"
                     className="w-full h-full object-contain"
                   />
@@ -362,7 +363,7 @@ export const WoundDetailPage: React.FC = () => {
                 >
                   <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-950 border border-slate-700/60 shrink-0">
                     <img
-                      src={entry.image_url}
+                      src={getFullImageUrl(entry.image_url)}
                       alt="Wound entry"
                       className="w-full h-full object-cover"
                     />

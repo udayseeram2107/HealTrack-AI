@@ -19,12 +19,18 @@ import {
   Flame,
   Info
 } from 'lucide-react';
-import { api } from '../api/client';
+import { api, getFullImageUrl } from '../api/client';
 import { VoiceRecorderJournal } from '../components/entry/VoiceRecorderJournal';
 import { CareGuidanceAccordion } from '../components/entry/CareGuidanceAccordion';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { useAppStore } from '../store/useAppStore';
 import { translations } from '../i18n/translations';
+import {
+  getLocalizedExudate,
+  getLocalizedOdor,
+  getLocalizedPainText,
+  getTranslatedWoundType
+} from '../i18n/woundTranslations';
 import {
   SupportedLanguage,
   ExudateLevel,
@@ -178,7 +184,7 @@ export const NewEntryWizardPage: React.FC = () => {
           New Clinical Telemetry Entry
         </h1>
         <p className="text-xs text-slate-400 mt-0.5">
-          Step-by-step multimodal assessment for {wound?.wound_name} ({wound?.anatomical_location})
+          Step-by-step multimodal assessment for {wound?.wound_name} {wound?.wound_type ? `• ${getTranslatedWoundType(wound.wound_type, language)}` : ''} ({wound?.anatomical_location})
         </p>
       </div>
 
@@ -406,7 +412,7 @@ export const NewEntryWizardPage: React.FC = () => {
                   {t.painLevelLabel}
                 </label>
                 <span
-                  className={`text-base font-extrabold font-mono px-3 py-1 rounded-xl border ${
+                  className={`text-xs font-bold font-mono px-3 py-1 rounded-xl border ${
                     painScore >= 8
                       ? 'bg-rose-950 text-rose-300 border-rose-700'
                       : painScore >= 4
@@ -414,7 +420,7 @@ export const NewEntryWizardPage: React.FC = () => {
                       : 'bg-emerald-950 text-emerald-300 border-emerald-700'
                   }`}
                 >
-                  {painScore} / 10
+                  {getLocalizedPainText(painScore, language)}
                 </span>
               </div>
               <input
@@ -452,7 +458,7 @@ export const NewEntryWizardPage: React.FC = () => {
                         : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
                     }`}
                   >
-                    {lvl}
+                    {getLocalizedExudate(lvl, language)}
                   </button>
                 ))}
               </div>
@@ -512,7 +518,7 @@ export const NewEntryWizardPage: React.FC = () => {
                         : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
                     }`}
                   >
-                    {od.label}
+                    {getLocalizedOdor(od.id, language)}
                   </button>
                 ))}
               </div>

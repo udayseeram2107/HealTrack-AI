@@ -16,9 +16,10 @@ import {
   MapPin,
   ExternalLink
 } from 'lucide-react';
-import { api } from '../api/client';
+import { api, getFullImageUrl } from '../api/client';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { RegisterWoundModal } from '../components/entry/RegisterWoundModal';
+import { getTranslatedWoundType } from '../i18n/woundTranslations';
 import { useAppStore } from '../store/useAppStore';
 import { translations } from '../i18n/translations';
 
@@ -189,7 +190,7 @@ export const DashboardPage: React.FC = () => {
                       <div>
                         <div className="flex items-center gap-2">
                           <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-teal-950/80 text-teal-400 border border-teal-800/60">
-                            {wound.wound_type}
+                            {getTranslatedWoundType(wound.wound_type, language)}
                           </span>
                           <span className="text-xs text-slate-400 font-medium">
                             {wound.anatomical_location}
@@ -210,7 +211,7 @@ export const DashboardPage: React.FC = () => {
                       <div className="p-3.5 bg-slate-950/70 rounded-2xl border border-slate-800/80 flex items-center gap-3 mt-2">
                         <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-900 shrink-0 border border-slate-700/60">
                           <img
-                            src={latest.image_url}
+                            src={getFullImageUrl(latest.image_url)}
                             alt="Latest Wound"
                             className="w-full h-full object-cover"
                           />

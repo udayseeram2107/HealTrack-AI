@@ -16,7 +16,7 @@ import {
   ChevronDown,
   ChevronUp
 } from 'lucide-react';
-import { api } from '../api/client';
+import { api, getFullImageUrl } from '../api/client';
 import { RiskBadge } from '../components/common/RiskBadge';
 
 export const PublicDoctorPortalPage: React.FC = () => {
@@ -234,7 +234,7 @@ export const PublicDoctorPortalPage: React.FC = () => {
               {/* High-res image */}
               <div className="lg:col-span-6 h-80 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center">
                 <img
-                  src={activeEntry.image_url}
+                  src={getFullImageUrl(activeEntry.image_url)}
                   alt="Clinical observation"
                   className="w-full h-full object-contain"
                 />

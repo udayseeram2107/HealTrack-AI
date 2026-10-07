@@ -13,7 +13,7 @@ import {
   CheckCircle2,
   Clock
 } from 'lucide-react';
-import { api } from '../api/client';
+import { api, getFullImageUrl } from '../api/client';
 import { WoundComparisonSlider } from '../components/comparison/WoundComparisonSlider';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { useAppStore } from '../store/useAppStore';
@@ -161,8 +161,8 @@ export const WoundComparePage: React.FC = () => {
       {/* Visual Comparison Slider Component */}
       {baseEntry && targetEntry && (
         <WoundComparisonSlider
-          beforeImage={baseEntry.image_url}
-          afterImage={targetEntry.image_url}
+          beforeImage={getFullImageUrl(baseEntry.image_url)}
+          afterImage={getFullImageUrl(targetEntry.image_url)}
           beforeDate={baseEntry.entry_date}
           afterDate={targetEntry.entry_date}
           beforeLabel="Baseline Photo"

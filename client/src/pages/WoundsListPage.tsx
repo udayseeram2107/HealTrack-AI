@@ -7,14 +7,15 @@ import {
   MapPin,
   ChevronRight
 } from 'lucide-react';
-import { api } from '../api/client';
+import { api, getFullImageUrl } from '../api/client';
 import { RiskBadge } from '../components/common/RiskBadge';
 import { useAppStore } from '../store/useAppStore';
 import { RegisterWoundModal } from '../components/entry/RegisterWoundModal';
+import { getTranslatedWoundType } from '../i18n/woundTranslations';
 
 export const WoundsListPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAppStore();
+  const { user, language } = useAppStore();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -79,7 +80,7 @@ export const WoundsListPage: React.FC = () => {
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <span className="px-2 py-0.5 rounded-md bg-teal-950/80 text-teal-400 border border-teal-800/60 text-[10px] font-bold">
-                      {wound.wound_type}
+                      {getTranslatedWoundType(wound.wound_type, language)}
                     </span>
                     {latest && (
                       <RiskBadge level={latest.ai_risk_level} reasoning={latest.ai_risk_reasoning} size="sm" />
@@ -99,7 +100,7 @@ export const WoundsListPage: React.FC = () => {
                   <div className="mt-3 h-40 rounded-2xl overflow-hidden bg-slate-950 border border-slate-800/80 relative flex items-center justify-center">
                     {latest ? (
                       <img
-                        src={latest.image_url}
+                        src={getFullImageUrl(latest.image_url)}
                         alt={wound.wound_name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />

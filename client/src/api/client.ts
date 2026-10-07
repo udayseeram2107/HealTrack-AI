@@ -7,14 +7,65 @@ import {
   SBARSummary
 } from '@/shared/index.js';
 
-const API_BASE = '/api/v1';
+// Support customizable API Base URL from environment variables, defaulting to local proxy /api/v1
+const rawBase = (((import.meta as any).env?.VITE_API_BASE_URL as string) || '').trim().replace(/\/+$/, '');
+export const API_BASE = rawBase
+  ? rawBase.endsWith('/api/v1')
+    ? rawBase
+    : `${rawBase}/api/v1`
+  : '/api/v1';
+
+export function getFullImageUrl(url?: string): string {
+  if (!url) return '';
+  if (
+    url.startsWith('http://') ||
+    url.startsWith('https://') ||
+    url.startsWith('data:') ||
+    url.startsWith('blob:')
+  ) {
+    return url;
+  }
+  if (API_BASE.startsWith('http://') || API_BASE.startsWith('https://')) {
+    try {
+      const origin = new URL(API_BASE).origin;
+      return `${origin}${url.startsWith('/') ? '' : '/'}${url}`;
+    } catch (_) {}
+  }
+  return url;
+}
 
 async function handleResponse<T>(res: Response): Promise<T> {
-  const json = await res.json();
-  if (!res.ok || json.success === false) {
-    throw new Error(json.error || 'Server request failed');
+  const contentType = res.headers.get('content-type') || '';
+
+  // Prevent "Unexpected token 'T', "The page c"... is not valid JSON" when reverse proxy/tunnels return HTML
+  if (!contentType.includes('application/json')) {
+    const text = await res.text();
+    const cleanSnippet = text.replace(/<[^>]*>?/gm, '').trim().substring(0, 120);
+
+    if (!res.ok) {
+      throw new Error(
+        `Backend service unavailable (${res.status}): ${cleanSnippet || res.statusText || 'Unable to communicate with API server.'}`
+      );
+    }
+    throw new Error(
+      `Received non-JSON response from server (${res.status}). Please verify that the API backend is active.`
+    );
   }
-  return (json.data !== undefined ? json.data : json) as T;
+
+  try {
+    const json = await res.json();
+    if (!res.ok || json.success === false) {
+      throw new Error(json.error || `Server request failed with status ${res.status}`);
+    }
+    return (json.data !== undefined ? json.data : json) as T;
+  } catch (err: any) {
+    if (err.message && !err.message.includes('not valid JSON')) {
+      throw err;
+    }
+    throw new Error(
+      'Invalid JSON response from server. Please verify the API backend is running.'
+    );
+  }
 }
 
 export const api = {
@@ -190,13 +241,12 @@ export const api = {
     });
 
     const res = await fetch(`${API_BASE}/maps/nearby-facilities?${query.toString()}`);
-    const json = await res.json();
-    return json;
+    return handleResponse(res);
   },
 
   async geocode(query: string): Promise<{ lat: number; lng: number; formattedAddress: string } | null> {
     const res = await fetch(`${API_BASE}/maps/geocode?q=${encodeURIComponent(query)}`);
-    const json = await res.json();
-    return json.data || null;
+    const data = await handleResponse<{ lat: number; lng: number; formattedAddress: string } | null>(res);
+    return data;
   }
 };
