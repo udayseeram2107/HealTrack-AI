@@ -1,0 +1,330 @@
+{
+  "profiles": [
+    {
+      "id": "00000000-0000-4000-a000-000000000001",
+      "role": "patient",
+      "full_name": "Rajesh Sharma",
+      "phone_number": "+91 98765 43210",
+      "preferred_language": "en",
+      "date_of_birth": "1974-06-15",
+      "created_at": "2026-09-07T08:48:10.811Z",
+      "updated_at": "2026-10-07T08:48:10.813Z"
+    }
+  ],
+  "wounds": [
+    {
+      "id": "00000000-0000-4000-a000-000000000011",
+      "patient_id": "00000000-0000-4000-a000-000000000001",
+      "wound_name": "Left Ankle Surgical Incision",
+      "anatomical_location": "Left Lateral Malleolus (Ankle)",
+      "wound_type": "Post-Surgical Incision",
+      "initial_onset_date": "2026-09-23",
+      "baseline_notes": "ORIF procedure for bimalleolar fracture. Suture removal done 4 days ago.",
+      "is_active": true,
+      "created_at": "2026-09-23T08:48:10.813Z",
+      "updated_at": "2026-10-07T09:39:50.295Z"
+    },
+    {
+      "id": "00000000-0000-4000-a000-000000000012",
+      "patient_id": "00000000-0000-4000-a000-000000000001",
+      "wound_name": "Right Plantar Forefoot Ulcer",
+      "anatomical_location": "Right 1st Metatarsal Head (Plantar)",
+      "wound_type": "Diabetic Foot Ulcer (DFU)",
+      "initial_onset_date": "2026-08-23",
+      "baseline_notes": "Neuropathic diabetic ulcer, undergoing offloading therapy.",
+      "is_active": true,
+      "created_at": "2026-08-23T08:48:10.813Z",
+      "updated_at": "2026-10-07T09:53:52.517Z"
+    }
+  ],
+  "wound_entries": [
+    {
+      "wound_id": "00000000-0000-4000-a000-000000000012",
+      "patient_id": "00000000-0000-4000-a000-000000000001",
+      "image_url": "/uploads/wound_55587398-2e8b-410a-b4dc-1fae13d8bdfc.webp",
+      "thumbnail_url": "/uploads/wound_55587398-2e8b-410a-b4dc-1fae13d8bdfc.webp",
+      "raw_voice_transcript": "Patient submitted a voice diary update in Telugu (తెలుగు). Routine check recorded.",
+      "recorded_language": "te",
+      "pain_score": 10,
+      "exudate_level": "heavy",
+      "exudate_type": "purulent",
+      "odor_level": "foul",
+      "periwound_condition": [
+        "Indurated (Hardened)",
+        "Edematous (Swollen)"
+      ],
+      "systemic_symptoms": [
+        "Chills ⚠️",
+        "Fever (>38°C/100.4°F) ⚠️",
+        "Dizziness / Weakness"
+      ],
+      "patient_notes": "Audio journal recorded (Telugu (తెలుగు)). Telemetry synchronized.",
+      "ai_risk_level": "clinical_review_recommended",
+      "ai_risk_reasoning": "Urgent clinical review recommended due to signs of systemic or spreading infection (elevated pain, purulent exudate, or systemic symptoms).",
+      "ai_change_detection_summary": "Significant tissue stress observed. Eschar or slough proliferation with risk of margin breakdown.",
+      "ai_granulation_percentage": 30,
+      "ai_slough_percentage": 45,
+      "ai_necrosis_percentage": 25,
+      "ai_care_tips": [
+        "Seek immediate emergency clinical care or visit the nearest trauma/emergency department.",
+        "Do not apply unverified topical ointments or tight bandages.",
+        "Keep limb elevated and avoid direct pressure."
+      ],
+      "ai_risks_if_neglected": [
+        "High risk of rapid cellulitis progression, deep fascial involvement, or sepsis.",
+        "Irreversible tissue necrosis requiring surgical debridement."
+      ],
+      "ai_recommended_specialties": [
+        "Emergency Medicine",
+        "Vascular Surgery",
+        "General Surgery"
+      ],
+      "ai_raw_json": {
+        "risk_level": "clinical_review_recommended",
+        "is_emergency_escalation": true,
+        "risk_reasoning": "Urgent clinical review recommended due to signs of systemic or spreading infection (elevated pain, purulent exudate, or systemic symptoms).",
+        "change_detection": {
+          "area_trend": "larger",
+          "visual_change_summary": "Significant tissue stress observed. Eschar or slough proliferation with risk of margin breakdown.",
+          "granulation_percent": 30,
+          "slough_percent": 45,
+          "necrosis_percent": 25
+        },
+        "personalized_guidance": {
+          "care_tips": [
+            "Seek immediate emergency clinical care or visit the nearest trauma/emergency department.",
+            "Do not apply unverified topical ointments or tight bandages.",
+            "Keep limb elevated and avoid direct pressure."
+          ],
+          "risks_if_neglected": [
+            "High risk of rapid cellulitis progression, deep fascial involvement, or sepsis.",
+            "Irreversible tissue necrosis requiring surgical debridement."
+          ],
+          "recommended_specialties": [
+            "Emergency Medicine",
+            "Vascular Surgery",
+            "General Surgery"
+          ]
+        }
+      },
+      "is_emergency_escalation": true,
+      "entry_date": "2026-10-07T09:53:52.517Z",
+      "id": "922426e0-c552-4285-8743-dce8a585819a",
+      "created_at": "2026-10-07T09:53:52.517Z"
+    },
+    {
+      "wound_id": "00000000-0000-4000-a000-000000000011",
+      "patient_id": "00000000-0000-4000-a000-000000000001",
+      "image_url": "/uploads/wound_5c3f3bc4-d5e8-4c47-ae87-bb36dc216e14.webp",
+      "thumbnail_url": "/uploads/wound_5c3f3bc4-d5e8-4c47-ae87-bb36dc216e14.webp",
+      "raw_voice_transcript": "Patient submitted a voice diary update in Telugu (తెలుగు). Routine check recorded.",
+      "recorded_language": "te",
+      "pain_score": 4,
+      "exudate_level": "none",
+      "exudate_type": "sanguinous",
+      "odor_level": "mild",
+      "periwound_condition": [
+        "Erythematous (Red)"
+      ],
+      "systemic_symptoms": [
+        "Dizziness / Weakness"
+      ],
+      "patient_notes": "Audio journal recorded (Telugu (తెలుగు)). Telemetry synchronized.",
+      "ai_risk_level": "stable",
+      "ai_risk_reasoning": "Wound parameters align with expected healing trajectory. Controlled pain level and minimal exudate.",
+      "ai_change_detection_summary": "Granulation tissue healthy and pink. Wound margins show active inward epithelialization.",
+      "ai_granulation_percentage": 80,
+      "ai_slough_percentage": 18,
+      "ai_necrosis_percentage": 2,
+      "ai_care_tips": [
+        "Continue standard sterile dressing protocol.",
+        "Maintain balanced dietary protein and hydration for tissue synthesis.",
+        "Keep protective dressing dry during showering."
+      ],
+      "ai_risks_if_neglected": [
+        "Accidental mechanical trauma or friction disrupting fragile epithelial buds."
+      ],
+      "ai_recommended_specialties": [
+        "General Practitioner",
+        "Attending Surgeon"
+      ],
+      "ai_raw_json": {
+        "risk_level": "stable",
+        "is_emergency_escalation": false,
+        "risk_reasoning": "Wound parameters align with expected healing trajectory. Controlled pain level and minimal exudate.",
+        "change_detection": {
+          "area_trend": "smaller",
+          "visual_change_summary": "Granulation tissue healthy and pink. Wound margins show active inward epithelialization.",
+          "granulation_percent": 80,
+          "slough_percent": 18,
+          "necrosis_percent": 2
+        },
+        "personalized_guidance": {
+          "care_tips": [
+            "Continue standard sterile dressing protocol.",
+            "Maintain balanced dietary protein and hydration for tissue synthesis.",
+            "Keep protective dressing dry during showering."
+          ],
+          "risks_if_neglected": [
+            "Accidental mechanical trauma or friction disrupting fragile epithelial buds."
+          ],
+          "recommended_specialties": [
+            "General Practitioner",
+            "Attending Surgeon"
+          ]
+        }
+      },
+      "is_emergency_escalation": false,
+      "entry_date": "2026-10-07T09:39:50.294Z",
+      "id": "7356e277-d68f-48bc-a205-08aa5cb6a457",
+      "created_at": "2026-10-07T09:39:50.295Z"
+    },
+    {
+      "wound_id": "00000000-0000-4000-a000-000000000011",
+      "patient_id": "00000000-0000-4000-a000-000000000001",
+      "image_url": "/uploads/wound_a3a07e55-eccb-4e1b-b3c1-78e410603cb0.svg",
+      "thumbnail_url": "/uploads/wound_a3a07e55-eccb-4e1b-b3c1-78e410603cb0.svg",
+      "raw_voice_transcript": "",
+      "recorded_language": "en",
+      "pain_score": 2,
+      "exudate_level": "none",
+      "exudate_type": "none",
+      "odor_level": "none",
+      "periwound_condition": [
+        "Intact"
+      ],
+      "systemic_symptoms": [],
+      "patient_notes": "Day 8 follow-up: dressing clean, epithelial edges intact",
+      "ai_risk_level": "stable",
+      "ai_risk_reasoning": "Wound parameters align with expected healing trajectory. Controlled pain level and minimal exudate.",
+      "ai_change_detection_summary": "Granulation tissue healthy and pink. Wound margins show active inward epithelialization.",
+      "ai_granulation_percentage": 80,
+      "ai_slough_percentage": 18,
+      "ai_necrosis_percentage": 2,
+      "ai_care_tips": [
+        "Continue standard sterile dressing protocol.",
+        "Maintain balanced dietary protein and hydration for tissue synthesis.",
+        "Keep protective dressing dry during showering."
+      ],
+      "ai_risks_if_neglected": [
+        "Accidental mechanical trauma or friction disrupting fragile epithelial buds."
+      ],
+      "ai_recommended_specialties": [
+        "General Practitioner",
+        "Attending Surgeon"
+      ],
+      "ai_raw_json": {
+        "risk_level": "stable",
+        "is_emergency_escalation": false,
+        "risk_reasoning": "Wound parameters align with expected healing trajectory. Controlled pain level and minimal exudate.",
+        "change_detection": {
+          "area_trend": "smaller",
+          "visual_change_summary": "Granulation tissue healthy and pink. Wound margins show active inward epithelialization.",
+          "granulation_percent": 80,
+          "slough_percent": 18,
+          "necrosis_percent": 2
+        },
+        "personalized_guidance": {
+          "care_tips": [
+            "Continue standard sterile dressing protocol.",
+            "Maintain balanced dietary protein and hydration for tissue synthesis.",
+            "Keep protective dressing dry during showering."
+          ],
+          "risks_if_neglected": [
+            "Accidental mechanical trauma or friction disrupting fragile epithelial buds."
+          ],
+          "recommended_specialties": [
+            "General Practitioner",
+            "Attending Surgeon"
+          ]
+        }
+      },
+      "is_emergency_escalation": false,
+      "entry_date": "2026-10-07T09:22:46.804Z",
+      "id": "05f57777-92f7-4af9-8df8-c86d38197a9e",
+      "created_at": "2026-10-07T09:22:46.805Z"
+    },
+    {
+      "id": "00000000-0000-4000-a000-000000000101",
+      "wound_id": "00000000-0000-4000-a000-000000000011",
+      "patient_id": "00000000-0000-4000-a000-000000000001",
+      "image_url": "/samples/ankle_wound_day1.webp",
+      "thumbnail_url": "/samples/ankle_wound_day1.webp",
+      "raw_voice_transcript": "Mild redness around the stitches, feeling tight but pain is tolerable around 4 out of 10.",
+      "recorded_language": "en",
+      "pain_score": 4,
+      "exudate_level": "scant",
+      "exudate_type": "serosanguinous",
+      "odor_level": "none",
+      "periwound_condition": [
+        "Erythematous (Red)"
+      ],
+      "systemic_symptoms": [],
+      "patient_notes": "Baseline check post suture removal. Dressing changed with sterile gauze.",
+      "ai_risk_level": "monitor",
+      "ai_risk_reasoning": "Mild periwound erythema post suture removal. Controlled pain and minimal serosanguinous exudate.",
+      "ai_change_detection_summary": "Baseline initial capture. Moderate erythema localized to suture line.",
+      "ai_granulation_percentage": 45,
+      "ai_slough_percentage": 15,
+      "ai_necrosis_percentage": 0,
+      "ai_care_tips": [
+        "Maintain dry sterile non-adherent dressing.",
+        "Avoid weight bearing directly on ankle.",
+        "Keep elevated during rest periods."
+      ],
+      "ai_risks_if_neglected": [
+        "Risk of bacterial colonization if skin moisture builds up.",
+        "Superficial wound edge dehiscence."
+      ],
+      "ai_recommended_specialties": [
+        "General Surgery",
+        "Orthopedic Surgery"
+      ],
+      "ai_raw_json": {},
+      "is_emergency_escalation": false,
+      "entry_date": "2026-09-30T08:48:10.813Z",
+      "created_at": "2026-09-30T08:48:10.813Z"
+    },
+    {
+      "id": "00000000-0000-4000-a000-000000000102",
+      "wound_id": "00000000-0000-4000-a000-000000000011",
+      "patient_id": "00000000-0000-4000-a000-000000000001",
+      "image_url": "/samples/ankle_wound_day7.webp",
+      "thumbnail_url": "/samples/ankle_wound_day7.webp",
+      "raw_voice_transcript": "Pain is much better now, around 2 out of 10. Redness has faded and incision is closing nicely.",
+      "recorded_language": "en",
+      "pain_score": 2,
+      "exudate_level": "none",
+      "exudate_type": "none",
+      "odor_level": "none",
+      "periwound_condition": [
+        "Intact"
+      ],
+      "systemic_symptoms": [],
+      "patient_notes": "Healing well, no drainage seen on morning dressing change.",
+      "ai_risk_level": "stable",
+      "ai_risk_reasoning": "Marked clinical improvement: erythema resolved, incision margin epithelized, no exudate or odor.",
+      "ai_change_detection_summary": "Epithelial migration visible across 85% of incision. Significant reduction in perimeter redness.",
+      "ai_granulation_percentage": 85,
+      "ai_slough_percentage": 5,
+      "ai_necrosis_percentage": 0,
+      "ai_care_tips": [
+        "Continue gentle cleansing with normal saline.",
+        "Apply thin silicone barrier or protective bandage.",
+        "Gradual range-of-motion ankle exercises."
+      ],
+      "ai_risks_if_neglected": [
+        "Avoid premature vigorous friction or soaking in water."
+      ],
+      "ai_recommended_specialties": [
+        "General Surgery"
+      ],
+      "ai_raw_json": {},
+      "is_emergency_escalation": false,
+      "entry_date": "2026-10-07T08:48:10.813Z",
+      "created_at": "2026-10-07T08:48:10.813Z"
+    }
+  ],
+  "doctor_shares": [],
+  "verified_facilities": []
+}
