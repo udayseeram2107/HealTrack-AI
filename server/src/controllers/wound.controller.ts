@@ -133,8 +133,12 @@ export class WoundController {
 
       if (previousEntry && previousEntry.image_url) {
         try {
-          // If local file path
-          if (previousEntry.image_url.startsWith('/uploads/')) {
+          if (previousEntry.image_url.startsWith('data:')) {
+            const matches = previousEntry.image_url.match(/^data:[^;]+;base64,(.+)$/);
+            if (matches && matches[1]) {
+              previousImageBuffer = Buffer.from(matches[1], 'base64');
+            }
+          } else if (previousEntry.image_url.startsWith('/uploads/')) {
             const localPath = path.join(process.cwd(), previousEntry.image_url);
             if (fs.existsSync(localPath)) {
               previousImageBuffer = fs.readFileSync(localPath);

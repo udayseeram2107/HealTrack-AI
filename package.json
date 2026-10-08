@@ -12,9 +12,9 @@
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "build:server": "npm --prefix server run build",
     "build:client": "npm --prefix client run build && node -e \"const fs = require('fs'); fs.cpSync('client/dist', 'dist', {recursive: true, force: true})\"",
-    "build": "npm run build:client",
+    "build": "npm run build:server && npm run build:client",
     "build:all": "npm run build:server && npm run build:client",
-    "vercel-build": "npm run build:client",
+    "vercel-build": "npm run build:server && npm run build:client",
     "start": "node server/dist/index.js",
     "start:server": "node server/dist/index.js",
     "db:migrate": "npm --prefix server run db:migrate"
@@ -25,9 +25,24 @@
     "esbuild@0.25.12": true
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^20.17.19",
+    "@types/uuid": "^10.0.0",
     "concurrently": "^8.2.2"
   },
   "dependencies": {
+    "@google/genai": "^0.2.0",
+    "@supabase/supabase-js": "^2.49.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.23.1",
+    "uuid": "^11.1.0",
+    "ws": "^8.22.0",
     "zod": "^3.24.2"
   }
 }

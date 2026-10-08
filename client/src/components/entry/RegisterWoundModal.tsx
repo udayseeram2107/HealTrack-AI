@@ -532,23 +532,39 @@ export const RegisterWoundModal: React.FC<RegisterWoundModalProps> = ({ isOpen, 
               <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
               <span className="leading-relaxed">{errorMessage}</span>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                const current = getApiBaseUrl();
-                const url = prompt(
-                  'Enter your live Backend API Server URL (e.g. Render URL or Tunnel URL):',
-                  current
-                );
-                if (url !== null && url.trim()) {
-                  setApiBaseUrl(url.trim());
-                  setErrorMessage('API URL updated to: ' + url.trim() + '. Please click Create Wound Record again.');
-                }
-              }}
-              className="px-2.5 py-1 bg-rose-900/90 hover:bg-rose-800 text-rose-200 hover:text-white text-[11px] font-semibold rounded-lg shrink-0 border border-rose-700/80 transition-colors"
-            >
-              Configure API URL
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setApiBaseUrl('');
+                  setErrorMessage('Reset to native cloud API (/api/v1). Please retry creating record.');
+                }}
+                className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold rounded-lg shrink-0 border border-slate-700 transition-colors"
+              >
+                Use Native Cloud API
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const current = getApiBaseUrl();
+                  const url = prompt(
+                    'Optional: Custom Backend API URL (leave blank to use native Vercel Cloud API):',
+                    current
+                  );
+                  if (url !== null) {
+                    setApiBaseUrl(url.trim());
+                    setErrorMessage(
+                      url.trim()
+                        ? 'API URL updated to: ' + url.trim() + '. Please click Create Wound Record again.'
+                        : 'Reset to native cloud API. Please click Create Wound Record again.'
+                    );
+                  }
+                }}
+                className="px-2.5 py-1 bg-rose-900/90 hover:bg-rose-800 text-rose-200 hover:text-white text-[11px] font-semibold rounded-lg shrink-0 border border-rose-700/80 transition-colors"
+              >
+                Custom API URL
+              </button>
+            </div>
           </div>
         )}
 

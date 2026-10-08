@@ -48,10 +48,38 @@ export const uploadWoundEntryFiles = multer({
   { name: 'audio', maxCount: 1 }
 ]);
 
+function getMimeType(ext: string, prefix: string): string {
+  const map: Record<string, string> = {
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.webp': 'image/webp',
+    '.svg': 'image/svg+xml',
+    '.webm': 'audio/webm',
+    '.wav': 'audio/wav',
+    '.mp3': 'audio/mpeg',
+    '.ogg': 'audio/ogg',
+    '.m4a': 'audio/mp4'
+  };
+  return map[ext.toLowerCase()] || (prefix === 'audio' ? 'audio/webm' : 'image/jpeg');
+}
+
 export function saveBufferToUploads(buffer: Buffer, originalname: string, prefix: string = 'img'): string {
-  const ext = path.extname(originalname) || '.jpg';
+  const isServerless = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+  const ext = path.extname(originalname) || (prefix === 'audio' ? '.webm' : '.jpg');
+  const mime = getMimeType(ext, prefix);
+
+  // In serverless cloud deployment (or files under 4MB), store directly as persistent Data URI in Supabase
+  if (isServerless || buffer.length <= 4 * 1024 * 1024) {
+    return `data:${mime};base64,${buffer.toString('base64')}`;
+  }
+
   const filename = `${prefix}_${uuidv4()}${ext}`;
-  const filePath = path.join(uploadDir, filename);
-  fs.writeFileSync(filePath, buffer);
-  return `/uploads/${filename}`;
+  try {
+    const filePath = path.join(uploadDir, filename);
+    fs.writeFileSync(filePath, buffer);
+    return `/uploads/${filename}`;
+  } catch (err) {
+    return `data:${mime};base64,${buffer.toString('base64')}`;
+  }
 }

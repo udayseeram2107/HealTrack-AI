@@ -8,14 +8,20 @@ import {
 } from '@/shared/index.js';
 
 // Dynamic API Base URL resolver supporting environment variables, localStorage override, and remote fallback
+// Dynamic API Base URL resolver supporting environment variables, localStorage override, and native same-origin serverless
 export function getApiBaseUrl(): string {
   // 1. Runtime override saved by user in browser
   if (typeof window !== 'undefined') {
     try {
       const custom = localStorage.getItem('healtrack_custom_api_url');
       if (custom && custom.trim()) {
-        const c = custom.trim().replace(/\/+$/, '');
-        return c.endsWith('/api/v1') ? c : `${c}/api/v1`;
+        // Automatically purge obsolete Pinggy tunnel URLs from previous sessions
+        if (custom.includes('pinggy') || custom.includes('.run.pinggy-free.link')) {
+          localStorage.removeItem('healtrack_custom_api_url');
+        } else {
+          const c = custom.trim().replace(/\/+$/, '');
+          return c.endsWith('/api/v1') ? c : `${c}/api/v1`;
+        }
       }
     } catch (_) {}
   }
@@ -26,16 +32,7 @@ export function getApiBaseUrl(): string {
     return rawBase.endsWith('/api/v1') ? rawBase : `${rawBase}/api/v1`;
   }
 
-  // 3. Fallback for remote static hosting (like Vercel) where /api/v1 is not locally proxied
-  if (
-    typeof window !== 'undefined' &&
-    window.location.hostname !== 'localhost' &&
-    window.location.hostname !== '127.0.0.1'
-  ) {
-    return 'https://jmwek-2409-40f0-443a-8b0-2975-b7ad-ae27-5a40.run.pinggy-free.link/api/v1';
-  }
-
-  // 4. Default to local proxy /api/v1 for local Vite dev server
+  // 3. Native relative API endpoint (routes directly to Vercel Serverless Function or local Vite proxy)
   return '/api/v1';
 }
 

@@ -36,6 +36,8 @@ lerna-debug.log*
 *.sw?
 .DS_Store
 
-# Local media uploads
+# Local media uploads and persistent cache
 server/uploads/*
 !server/uploads/.gitkeep
+uploads/
+data/

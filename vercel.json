@@ -7,15 +7,15 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://jmwek-2409-40f0-443a-8b0-2975-b7ad-ae27-5a40.run.pinggy-free.link/api/$1"
+      "destination": "/api"
     },
     {
       "source": "/uploads/(.*)",
-      "destination": "https://jmwek-2409-40f0-443a-8b0-2975-b7ad-ae27-5a40.run.pinggy-free.link/uploads/$1"
+      "destination": "/api"
     },
     {
       "source": "/samples/(.*)",
-      "destination": "https://jmwek-2409-40f0-443a-8b0-2975-b7ad-ae27-5a40.run.pinggy-free.link/samples/$1"
+      "destination": "/api"
     },
     {
       "source": "/((?!api|uploads|samples).*)",
